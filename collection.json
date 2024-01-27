@@ -39,7 +39,7 @@
 							"key": "file",
 							"type": "file",
 							"src": "{{ImagePath}}/123.jpg"
-}						},
+						},
 						{
 							"key": "upload_preset",
 							"value": "papoman",
