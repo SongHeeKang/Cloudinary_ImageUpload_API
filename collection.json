@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "63a1731b-dcaf-41f3-bdbc-c7f4c5a622ae",
+		"name": "Image",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1544460"
+	},
+	"item": [
+		{
+			"name": "ImageUpload",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// const filePath = pm.variables.get(\"C:/image/123.jpg\");\r",
+							"// if (filePath) {\r",
+							"//     pm.request.body.formData.append('file', pm.variables.replaceIn(filePath));\r",
+							"// }\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "123.jpg"
+						},
+						{
+							"key": "upload_preset",
+							"value": "papoman",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.cloudinary.com/v1_1/dh9uchtpo/upload",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cloudinary",
+						"com"
+					],
+					"path": [
+						"v1_1",
+						"dh9uchtpo",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://122c6391-6a7f-430a-8e14-a4c4bfd6d100.mock.pstmn.io"
+		}
+	]
+}
