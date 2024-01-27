@@ -38,7 +38,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "{{ImagePath}}/123.jpg"
+							"src": "http://res.cloudinary.com/dh9uchtpo/image/upload/v1706334346/papoman/zpy2ozvms62omznutnn3.jpg"
 						},
 						{
 							"key": "upload_preset",
