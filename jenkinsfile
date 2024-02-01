@@ -15,7 +15,7 @@ pipeline {
 
 def runNewmanTests() {
     def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
-	env.PATH = "/usr/local/bin:$PATH"
+	env.PATH = "/something/bin:${env.PATH}"
     sh '''
         newman --version
         npm install -g newman-reporter-allure
