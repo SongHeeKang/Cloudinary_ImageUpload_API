@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        label 'hk'
+    }
+
+    stages {
+        stage('Run Newman API Tests') {
+            steps {
+                script {
+                    // Run Newman script with environment file
+                    runNewmanTests()
+                }
+            }
+        }
+    }
+}
+
+def runNewmanTests() {
+    def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
+    if (!nodeInstalled) {
+        // If Node.js is not installed, install it
+        sh '''
+            curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+        '''
+    }
+    sh '''
+        newman --version
+        npm install -g newman-reporter-allure
+        rm -rf allure-results
+        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+    '''
+}
