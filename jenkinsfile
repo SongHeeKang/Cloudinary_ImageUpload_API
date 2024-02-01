@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'All'
-    }
+    agent any
 
     stages {
         stage('Run Newman API Tests') {
