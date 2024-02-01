@@ -1,8 +1,4 @@
 pipeline {
-    agent {
-        label 'hk'
-    }
-
     stages {
         stage('Run Newman API Tests') {
             steps {
