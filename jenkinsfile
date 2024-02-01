@@ -1,4 +1,7 @@
-pipeline {
+pipeline 
+	agent {
+			label 'All'
+		}
     stages {
         stage('Run Newman API Tests') {
             steps {
