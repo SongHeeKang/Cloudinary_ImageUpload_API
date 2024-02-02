@@ -12,7 +12,7 @@ pipeline {
                     // Run Newman script with environment file
                     runNewmanTests
 					def nodePath = env.NODE_HOME
-					echo "Node Path: $/var/jenkins_home/workspace/node"
+					echo "Node Path: ${'/var/jenkins_home/workspace/node'}"
                 }
             }
         }
