@@ -40,16 +40,15 @@ def runNewmanTests() {
     '''
 }
 
-stage('Generate Allure Report') {
-    steps {
-        script {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
-        }
-    }
+def AllureRepor() {
+    def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
+		script {
+					allure([
+						includeProperties: false,
+						jdk: '',
+						properties: [],
+						reportBuildPolicy: 'ALWAYS',
+						results: [[path: 'allure-results']]
+					])
+				}
 }
