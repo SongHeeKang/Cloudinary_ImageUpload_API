@@ -39,16 +39,3 @@ def runNewmanTests() {
 				newman run collection.json --insecure -r allure --reporter-allure-export allure-results
     '''
 }
-
-def AllureRepor() {
-    def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
-		script {
-					allure([
-						includeProperties: false,
-						jdk: '',
-						properties: [],
-						reportBuildPolicy: 'ALWAYS',
-						results: [[path: 'allure-results']]
-					])
-				}
-}
