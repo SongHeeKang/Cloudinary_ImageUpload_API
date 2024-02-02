@@ -23,7 +23,6 @@ def runNewmanTests() {
                 '''
             } 
             sh '''
-				env.PATH = "/usr/local/bin:$PATH newman -v"
                 source ~/.nvm/nvm.sh
                 npm install 16
                 nvm use 16
