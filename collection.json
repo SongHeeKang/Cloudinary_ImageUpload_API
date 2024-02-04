@@ -13,10 +13,6 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"// const filePath = pm.variables.get(\"123.jpg\");\r",
-							"// if (filePath) {\r",
-							"//     pm.request.body.formData.append('file', pm.variables.replaceIn(filePath));\r",
-							"// }\r",
 							""
 						],
 						"type": "text/javascript"
@@ -38,7 +34,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/123.jpg"
+							"src": "123.jpg"
 						},
 						{
 							"key": "upload_preset",
