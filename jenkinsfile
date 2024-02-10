@@ -15,8 +15,8 @@ pipeline {
 	        npm install -g newman-reporter-allure
 		newman --version
 	        rm -rf allure-results
-		allure includeProperties: false, jdk: '', results: [[path: '/var/jenkins_home/workspace/MultiAPI_master/allure-report']]
 	        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+		allure includeProperties: false, jdk: '', results: [[path: '/var/jenkins_home/workspace/MultiAPI_master/allure-report']]
 	    '''
                 }
             }
