@@ -2,7 +2,7 @@ pipeline {
     agent any
 	
 	tools {
-			nodejs 'nodejs 16.0.0'
+		nodejs 'nodejs 16.0.0'
 		}
 
     stages {
@@ -10,12 +10,12 @@ pipeline {
             steps {
                 script {
                 sh '''
-				node --version
+		node --version
                 newman --version
                 npm install -g newman-reporter-allure
                 rm -rf allure-results
-				newman run collection.json --insecure -r allure --reporter-allure-export allure-results
-				'''
+		newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+		'''
                 }
             }
         }
