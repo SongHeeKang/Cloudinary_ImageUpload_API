@@ -17,6 +17,7 @@ pipeline {
 		newman --version
 	        rm -rf allure-results
 	        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+		allure generate allure-results
 		allure includeProperties: false, jdk: '', results: [[path: '/var/jenkins_home/workspace/MultiAPI_master/allure-results']]
 	    '''
                 }
