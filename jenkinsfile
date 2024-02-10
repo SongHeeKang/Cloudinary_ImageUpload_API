@@ -14,7 +14,7 @@ pipeline {
 	        npm install -g newman-reporter-allure
 		newman --version
 	        rm -rf allure-results
-	        newman run collection.json -e environment.json --insecure -r allure --reporter-allure-export allure-results
+	        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
 	    '''
                 }
             }
