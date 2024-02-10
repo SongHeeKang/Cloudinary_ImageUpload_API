@@ -18,6 +18,7 @@ pipeline {
 	        rm -rf allure-results
 	        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
 		allure generate allure-results
+		allure generate --clean allure-results
 	    '''
                 }
             }
