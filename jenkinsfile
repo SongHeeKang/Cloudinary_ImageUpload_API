@@ -21,11 +21,11 @@ pipeline {
                 }
             }
         }
-    }
-	stage('Publish Allure Report') {
+stage('Publish Allure Report') {
 	            steps {
 	                // Publish Allure report as regular artifacts
 	                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
 	            }
 	        }
+    }
 }
