@@ -20,17 +20,28 @@ pipeline {
 					npm install allure-commandline
 
 					newman --version
-					rm -rf allure-results
 					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
 					'''
                 }
             }
         }
+
 	stage('Publish Allure Report') {
 		steps {
 			// Publish Allure report as regular artifacts
 			allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
 	    }
 	}
+
+	stage('Delete reports'){
+            steps{
+                script {
+                sh """
+					rm -rf allure-results
+                """
+                }
+            }
+        }
+
     }
 }
