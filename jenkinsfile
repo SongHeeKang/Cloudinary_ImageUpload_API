@@ -9,12 +9,10 @@ pipeline {
         stage('Run Newman API Tests') {
             steps {
                 script {
-                    sh '''				
+                    sh '''
 					npm install newman
-
 					npm install newman-reporter-allure
 					npm install allure-commandline
-
 					newman --version
 					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
 					'''
