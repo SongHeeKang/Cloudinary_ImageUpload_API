@@ -1,8 +1,8 @@
 pipeline {
     agent any
-	// tools {
-	// 	nodejs 'NodeJS 16.0.0'
-	// 	}
+	tools {
+		nodejs 'nodejs 22.3.0' // jenkins nodejs name
+		}
 	// npm install -g newman-reporter-allure
 	// npm install -g allure-commandline
     stages {
