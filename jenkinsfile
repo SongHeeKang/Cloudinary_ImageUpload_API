@@ -1,30 +1,33 @@
 pipeline {
     agent any
-	
-	tools {
-		nodejs 'NodeJS 16.0.0'
-
-		}
-
+	// tools {
+	// 	nodejs 'NodeJS 16.0.0'
+	// 	}
+	// npm install -g newman-reporter-allure
+	// npm install -g allure-commandline
     stages {
         stage('Run Newman API Tests') {
             steps {
                 script {
                     sh '''
-	        npm install newman
-	        npm install -g newman-reporter-allure
-		npm install -g allure-commandline
-		newman --version
-		rm -rf allure-results
-	        newman run collection.json --insecure -r allure --reporter-allure-export allure-results
-	    '''
+					python3 -m venv venv
+                    . venv/bin/activate
+					npm install newman
+
+					npm install newman-reporter-allure
+					npm install allure-commandline
+
+					newman --version
+					rm -rf allure-results
+					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+					'''
                 }
             }
         }
 	stage('Publish Allure Report') {
-		            steps {
-		                // Publish Allure report as regular artifacts
-		                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+		steps {
+			// Publish Allure report as regular artifacts
+			allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
 	    }
 	}
     }
