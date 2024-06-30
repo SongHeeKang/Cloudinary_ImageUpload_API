@@ -10,9 +10,6 @@ pipeline {
             steps {
                 script {
                     sh '''				
-					npm update
-					npm audit fix
-
 					npm install newman
 
 					npm install newman-reporter-allure
