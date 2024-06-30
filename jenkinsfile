@@ -5,7 +5,7 @@ pipeline {
 		}
 	// npm install -g newman-reporter-allure
 	// npm install -g allure-commandline
-
+    stages {
         stage('Run Newman API Tests') {
             steps {
                 script {
@@ -38,3 +38,4 @@ pipeline {
         }
 
     }
+}
