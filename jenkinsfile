@@ -12,7 +12,6 @@ pipeline {
                     sh '''				
 					npm update
 					npm audit fix
-					npm audit fix --force
 
 					npm install newman
 
