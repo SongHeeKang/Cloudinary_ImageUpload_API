@@ -44,6 +44,10 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_VERSION = '22.3.0'
+    }
+
     stages {
         stage('Prepare') {
             steps {
@@ -56,39 +60,56 @@ pipeline {
 
         stage('Install Node.js and npm') {
             steps {
-                // Node.js와 npm 설치
+                // NVM 설치
                 sh '''
-                    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-                    sudo apt-get install -y nodejs
-                    sudo apt-get install -y npm
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # NVM 스크립트를 로드
+                    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # NVM bash_completion을 로드
                 '''
-                // 설치 확인
-                sh '''
+                // Node.js 설치 및 사용
+                sh """
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # NVM 스크립트를 로드
+                    nvm install ${NODE_VERSION}
+                    nvm use ${NODE_VERSION}
                     node --version
                     npm --version
-                '''
+                """
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 // Newman 및 Allure 커맨드라인 도구 설치
-                sh 'npm install -g newman'
-                sh 'npm install -g allure-commandline'
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # NVM 스크립트를 로드
+                    npm install -g newman
+                    npm install -g allure-commandline
+                '''
             }
         }
 
         stage('Run Newman Tests') {
             steps {
                 // Newman으로 collection.json 실행 및 결과를 Allure 형식으로 출력
-                sh 'newman run collection.json -r allure --reporter-allure-export allure-results'
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # NVM 스크립트를 로드
+                    newman run collection.json -r allure --reporter-allure-export allure-results
+                '''
             }
         }
 
         stage('Generate Allure Report') {
             steps {
                 // Allure 리포트 생성
-                sh 'allure generate allure-results -o allure-report --clean'
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # NVM 스크립트를 로드
+                    allure generate allure-results -o allure-report --clean
+                '''
             }
         }
     }
