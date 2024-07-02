@@ -37,9 +37,8 @@ pipeline {
 
                             sh '''
                             . ~/.nvm/nvm.sh
-                            npm install 16
-                            nvm use 16
                             npm install newman
+                            npm install -S newman-reporter-allure
                             node --version
                             npm --version
                             newman --version
