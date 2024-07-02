@@ -1,114 +1,41 @@
-// pipeline {
-//     agent any
-// 	tools {
-// 		nodejs 'nodejs 22.3.0' // jenkins nodejs name
-// 		}
-// 	// npm install -g newman-reporter-allure
-// 	// npm install -g allure-commandline
-//     stages {
-//         stage('Run Newman API Tests') {
-//             steps {
-//                 script {
-//                     sh '''
-// 					npm install newman
-// 					npm install newman-reporter-allure
-// 					npm install allure-commandline
-// 					newman --version
-// 					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
-// 					'''
-//                 }
-//             }
-//         }
-
-// 	stage('Publish Allure Report') {
-// 		steps {
-// 			// Publish Allure report as regular artifacts
-// 			allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-// 	    }
-// 	}
-
-// 	stage('Delete reports'){
-//             steps{
-//                 script {
-//                 sh """
-// 					rm -rf allure-results
-//                 """
-//                 }
-//             }
-//         }
-
-//     }
-// }
-
-
 pipeline {
     agent any
-
-    environment {
-        NODE_VERSION = '22.3.0'
-        NVM_DIR = "$HOME/.nvm"
-    }
-
+	tools {
+		nodejs 'nodejs 22.3.0' // jenkins nodejs name
+		}
+	// npm install -g newman-reporter-allure
+	// npm install -g allure-commandline
     stages {
-        stage('Prepare') {
+        stage('Run Newman API Tests') {
             steps {
-                cleanWs()
-                // checkout scm
+                script {
+                    sh '''
+					npm install newman
+					npm install newman-reporter-allure
+					npm install allure-commandline
+					newman --version
+					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+					'''
+                }
             }
         }
 
-        stage('Install Node.js and npm') {
-            steps {
-                sh '''
-                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-                    . "$NVM_DIR/nvm.sh"
-                    . "$NVM_DIR/bash_completion"
-                    nvm install ${NODE_VERSION}
-                    nvm use ${NODE_VERSION}
-                    node --version
-                    npm --version
-                '''
+	stage('Publish Allure Report') {
+		steps {
+			// Publish Allure report as regular artifacts
+			allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+	    }
+	}
+
+	stage('Delete reports'){
+            steps{
+                script {
+                sh """
+					rm -rf allure-results
+                """
+                }
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    npm install -g newman
-                    npm install -g allure-commandline
-                '''
-            }
-        }
-
-        stage('Run Newman Tests') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    newman run collection.json -r allure --reporter-allure-export allure-results
-                '''
-            }
-        }
-
-        stage('Generate Allure Report') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    allure generate allure-results -o allure-report --clean
-                '''
-            }
-        }
-    }
-
-    post {
-        always {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
-        }
     }
 }
