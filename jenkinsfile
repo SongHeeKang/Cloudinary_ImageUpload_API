@@ -27,17 +27,27 @@ pipeline {
                 }
             }
         }
+        stage('Create Allure Resports') {
+            def publishAllureResults(String filepath) {
+            allure([
+            includeProperties: false,
+            jdk: '',
+            properties: [],
+            reportBuildPolicy: 'ALWAYS',
+            results: [[path: filepath]]
+                ])
+            }
         }
-
-def publishAllureResults(String filepath) {
-allure([
-        includeProperties: false,
-        jdk: '',
-        properties: [],
-        reportBuildPolicy: 'ALWAYS',
-        results: [[path: filepath]]
-            ])
-        }
+        
+// def publishAllureResults(String filepath) {
+// allure([
+//         includeProperties: false,
+//         jdk: '',
+//         properties: [],
+//         reportBuildPolicy: 'ALWAYS',
+//         results: [[path: filepath]]
+//             ])
+//         }
 
 	// stage('Delete reports'){
     //         steps{
