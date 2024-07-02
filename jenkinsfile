@@ -95,37 +95,9 @@ pipeline {
         }
     }
 
-//         def runNewmanTests() {
-//         def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
-//             if (!nodeInstalled) {
-//                 // If Node.js is not installed, install it
-//                 sh '''
-//                     curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-//                     sudo apt-get install -y nodejs
-//                 '''
-//             }
-//                 sh '''
-//                 . ~/.nvm/nvm.sh
-//                 npm install 16
-//                 nvm use 16
-//                 npm install newman
-//                 newman --version
-//                 npm install -S newman-reporter-allure
-//                 rm -rf allure-results
-//                 newman run collection.json \
-//                 --insecure -r 'cli,junit,allure,json' \
-//                 --reporter-allure-export allure-results
-//                 '''
-// }
 
-def publishAllureResults(String filepath) {
-    allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'allure-results']]
-                ])
+def publishAllureResults() {
+    allure includeProperties: false, jdk: '', results: [[path: 'reports/allureReports']]
 }
 
 def calculateDuration() {
