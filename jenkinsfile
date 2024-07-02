@@ -79,7 +79,6 @@ pipeline {
            }
         }
     }
-}
 
 //         def runNewmanTests() {
 //         def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
