@@ -15,8 +15,8 @@ pipeline {
         stage('run newman') {
             steps {
                 script {
-                    sh ```
-                    ```
+                    sh '''
+                    '''
                 }
             }
         }
