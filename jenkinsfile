@@ -15,7 +15,6 @@ pipeline {
         stage('run newman') {
             steps {
                 script {
-                    def runNewmanTests() {
                     def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
                         if (!nodeInstalled) {
                             // If Node.js is not installed, install it
