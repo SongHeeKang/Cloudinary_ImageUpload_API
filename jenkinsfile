@@ -27,6 +27,7 @@ pipeline {
                 }
             }
         }
+        }
 
         def publishAllureResults(String filepath) {
         allure([
@@ -47,6 +48,4 @@ pipeline {
     //             }
     //         }
     //     }
-
-    }
 }
