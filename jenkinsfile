@@ -16,8 +16,8 @@ pipeline {
                     def collectionfile=params.collectionfiles
                     sh '''
 					npm install newman
-					npm install -g newman-reporter-allure
-					npm install -g allure-commandline
+					npm install newman-reporter-allure
+					npm install allure-commandline
 					newman --version
 					newman run ${collectionfile} --insecure -r allure --reporter-allure-export allure-results
 					'''
