@@ -1,75 +1,115 @@
 pipeline {
     agent any
-
-    environment {
-        NODE_VERSION = '22.3.0'
-        NVM_DIR = "$HOME/.nvm"
-    }
-
     parameters {
         string(name: 'url', defaultValue: 'https://api.cloudinary.com/v1_1/dh9uchtpo/upload', description: 'cloudinary url')
     }
-
+    environment {
+        BUILD_START = "${new Date().getTime()}"
+        NEWMAN_RESULTS_PATH = 'newman/report.json'
+    }
+    options {
+        // retry(2) // 재시도 횟수
+        buildDiscarder(logRotator(numToKeepStr: '100')) // 빌드 로그는 100개까지 유지
+    }
     stages {
-        stage('Prepare') {
+        stage('run newman') {
             steps {
-                cleanWs()
-                // checkout scm
-            }
-        }
-
-        stage('Install Node.js and npm') {
-            steps {
-                sh '''
-                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-                    . "$NVM_DIR/nvm.sh"
-                    . "$NVM_DIR/bash_completion"
-                    nvm install ${NODE_VERSION}
-                    nvm use ${NODE_VERSION}
-                    node --version
-                    npm --version
-                '''
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    npm install -g newman
-                    npm install -g allure-commandline
-                '''
-            }
-        }
-
-        stage('Run Newman Tests') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    newman run collection.json -r allure --reporter-allure-export allure-results
-                '''
-            }
-        }
-
-        stage('Generate Allure Report') {
-            steps {
-                sh '''
-                    . "$NVM_DIR/nvm.sh"
-                    allure generate allure-results -o allure-report --clean
-                '''
+                script {
+                }
             }
         }
     }
 
     post {
         always {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
+            publishAllureResults("allure-results")
+        }
+        success {
+            script {
+                // 빌드 소요시간 계산
+                def durationResult = calculateDuration()
+                def minutes = durationResult[0]
+                def seconds = durationResult[1]
+                def timeMessage = durationResult[2]
+
+                echo "성공"
+            }
+        }
+        failure {
+            script {
+                // 빌드 소요시간 계산
+                def durationResult = calculateDuration()
+                def minutes = durationResult[0]
+                def seconds = durationResult[1]
+                def timeMessage = durationResult[2]
+
+                echo "실패"
+            }
+        }
+        aborted {
+            script {
+                // 빌드 소요시간 계산
+                def durationResult = calculateDuration()
+                def minutes = durationResult[0]
+                def seconds = durationResult[1]
+                def timeMessage = durationResult[2]
+
+                echo "중단"
+           }
         }
     }
+}
+
+def runNewmanTests() {
+            def nodeInstalled = sh(script: 'node --version', returnStatus: true) == 0
+            if (!nodeInstalled) {
+                // If Node.js is not installed, install it
+                sh '''
+                    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+                    sudo apt-get install -y nodejs
+                '''
+            }
+                sh '''
+                . ~/.nvm/nvm.sh
+                npm install 16
+                nvm use 16
+                npm install newman
+                newman --version
+                npm install -S newman-reporter-allure
+                rm -rf allure-results
+                newman run collection.json \
+                --insecure -r 'cli,junit,allure,json' \
+                --reporter-allure-export allure-results \     
+                '''
+}
+
+def publishAllureResults(String filepath) {
+    allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: filepath]]
+                ])
+}
+
+def calculateDuration() {
+    def endTime = new Date().getTime()
+    def durationMillis = endTime - (env.BUILD_START as Long)
+    def durationSeconds = (durationMillis / 1000) as int
+    def minutes = (durationSeconds / 60).intValue()
+    def seconds = (durationSeconds % 60).intValue()
+
+    String timeMessage = ""
+    if (minutes > 0 || seconds > 0) {
+        if (minutes > 0) {
+            timeMessage += "${minutes}분 "
+        }
+        if (seconds > 0) {
+            timeMessage += "${seconds}초"
+        }
+    } else {
+        timeMessage = "소요 시간 없음"
+    }
+    return [minutes, seconds, timeMessage]
 }
