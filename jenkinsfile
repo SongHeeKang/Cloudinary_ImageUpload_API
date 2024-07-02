@@ -79,7 +79,7 @@ def runNewmanTests() {
                 rm -rf allure-results
                 newman run collection.json \
                 --insecure -r 'cli,junit,allure,json' \
-                --reporter-allure-export allure-results \     
+                --reporter-allure-export allure-results
                 '''
 }
 
