@@ -38,15 +38,15 @@ pipeline {
                     ])
                 }
 
-	stage('Delete reports'){
-            steps{
-                script {
-                sh """
-					rm -rf allure-results
-                """
-                }
-            }
-        }
+	// stage('Delete reports'){
+    //         steps{
+    //             script {
+    //             sh """
+	// 				rm -rf allure-results
+    //             """
+    //             }
+    //         }
+    //     }
 
     }
 }
