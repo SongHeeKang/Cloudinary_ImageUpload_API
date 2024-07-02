@@ -6,13 +6,14 @@ pipeline {
 	// npm install -g newman-reporter-allure
 	// npm install -g allure-commandline
     parameters {
-        string(name: 'collectionfile', defaultValue: 'collection.json', description: 'Enter a value for collection.json')
+        string(name: 'collectionfiles', defaultValue: 'collection.json', description: 'Enter a value for collection.json')
+        string(name: 'url', defaultValue: 'https://api.cloudinary.com/v1_1/dh9uchtpo/upload', description: 'cloudinary url')
     }
     stages {
         stage('Run Newman API Tests') {
             steps {
                 script {
-                    def collectionfile=params.collectionfile
+                    def collectionfile=params.collectionfiles
                     sh '''
 					npm install newman
 					npm install -g newman-reporter-allure
