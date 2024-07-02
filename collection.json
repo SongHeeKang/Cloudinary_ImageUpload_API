@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "63a1731b-dcaf-41f3-bdbc-c7f4c5a622ae",
+		"_postman_id": "edec57d7-6955-4410-845a-2549e7dc68bc",
 		"name": "Image",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1544460"
@@ -15,7 +15,52 @@
 						"exec": [
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Test1. 200 Status를 확인한다 ",
+							"pm.test(\"Test1: Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"//Test2. Response time이 2000ms 안이다",
+							"pm.test(\"Test2: Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"",
+							"//Test3. response_code에서 code, message 값을 확인한다. ",
+							"pm.test(\"Test3: To check response_code.code, response_message\", () => {",
+							"    const jsonData = pm.response.json();",
+							"    // pm.expect(jsonData.response_code.code).to.be.eql(0);",
+							"    pm.expect(jsonData.format).to.be.eql(\"jpg\");",
+							"    pm.expect(jsonData.type).to.be.eql(\"upload\");",
+							"});",
+							"",
+							"",
+							"//Test4. Response Result valid Check. ",
+							"pm.test(\"Test4: response must be valid and have a body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"//Test5. Response Result not fount error check. ",
+							"pm.test(\"Test5: response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody(\"asset_id\");",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
