@@ -5,16 +5,20 @@ pipeline {
 		}
 	// npm install -g newman-reporter-allure
 	// npm install -g allure-commandline
+    parameters {
+        string(name: 'collectionfile', defaultValue: 'collection.json', description: 'Enter a value for collection.json')
+    }
     stages {
         stage('Run Newman API Tests') {
             steps {
                 script {
+                    def collectionfile=params.collectionfile
                     sh '''
 					npm install newman
 					npm install -g newman-reporter-allure
 					npm install -g allure-commandline
 					newman --version
-					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
+					newman run ${collectionfile} --insecure -r allure --reporter-allure-export allure-results
 					'''
                 }
             }
