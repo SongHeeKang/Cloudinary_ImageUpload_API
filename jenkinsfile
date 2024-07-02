@@ -6,7 +6,6 @@ pipeline {
     environment {
         BUILD_START = "${new Date().getTime()}"
         // NEWMAN_RESULTS_PATH = 'newman/report.json'
-        NEWMAN_RESULTS_PATH = 'allure-results'
     }
     options {
         // retry(2) // 재시도 횟수
@@ -92,7 +91,7 @@ def publishAllureResults(String filepath) {
                     jdk: '',
                     properties: [],
                     reportBuildPolicy: 'ALWAYS',
-                    results: [[path: filepath]]
+                    results: [[path: 'allure-results']]
                 ])
 }
 
