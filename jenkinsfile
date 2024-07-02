@@ -13,9 +13,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-					npm install newman
-					npm install newman-reporter-allure
-					npm install allure-commandline
+					npm install -g newman
+					npm install -g newman-reporter-allure
+					npm install -g allure-commandline
 					newman --version
 					newman run collection.json --insecure -r allure --reporter-allure-export allure-results
 					'''
