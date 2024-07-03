@@ -93,6 +93,7 @@ pipeline {
                 echo "중단"
            }
         }
+    }
 
 
 def publishAllureResults() {
@@ -118,5 +119,4 @@ def calculateDuration() {
         timeMessage = "소요 시간 없음"
     }
     return [minutes, seconds, timeMessage]
-    }
 }
