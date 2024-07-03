@@ -54,7 +54,6 @@ pipeline {
                 }
             }
         }
-    }
 
     post {
         always {
@@ -94,6 +93,7 @@ pipeline {
            }
         }
     }
+}
 
 
 def publishAllureResults() {
